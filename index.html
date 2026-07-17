@@ -64,6 +64,12 @@
     body.dark-mode .sidebar { background: #1A1A1A; border-right: 1px solid #2C2C2C; }
     body.dark-mode .table { color: #E8E8E8; }
     body.dark-mode .breadcrumb { background: #1E1E1E; }
+    body.dark-mode .filter-group { background: #1E1E1E; }
+    body.dark-mode .filter-group select,
+    body.dark-mode .filter-group input {
+      background: #2C2C2C; color: #E8E8E8; border-color: #3C3C3C;
+    }
+    body.dark-mode .footer { border-top-color: #2C2C2C; }
     a { color: var(--azul-plumbago); text-decoration: none; }
     .container-fluid { max-width: 1600px; margin: 0 auto; padding: 0 1.5rem; }
 
@@ -75,8 +81,15 @@
       overflow-y: auto;
     }
     .sidebar .logo { font-weight: 700; font-size: 1.4rem; color: var(--azul-plumbago); margin-bottom: 2rem; }
-    .sidebar .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.7rem 1rem; border-radius: 12px; margin-bottom: 0.3rem; color: var(--gris-medio); transition: var(--transition); cursor: pointer; }
-    .sidebar .nav-item:hover, .sidebar .nav-item.active { background: var(--azul-suave); color: var(--azul-plumbago); font-weight: 500; }
+    .sidebar .logo i { margin-right: 8px; }
+    .sidebar .nav-item { 
+      display: flex; align-items: center; gap: 0.75rem; padding: 0.7rem 1rem; 
+      border-radius: 12px; margin-bottom: 0.3rem; color: var(--gris-medio); 
+      transition: var(--transition); cursor: pointer; 
+    }
+    .sidebar .nav-item:hover, .sidebar .nav-item.active { 
+      background: var(--azul-suave); color: var(--azul-plumbago); font-weight: 500; 
+    }
     .sidebar .nav-item i { width: 24px; }
     .sidebar-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: var(--azul-plumbago); }
 
@@ -95,8 +108,14 @@
       box-shadow: var(--shadow-card); display: flex; align-items: center; justify-content: space-between;
       flex-wrap: wrap; margin-bottom: 1.5rem;
     }
-    .navbar .breadcrumb { background: transparent; margin: 0; font-size: 0.9rem; }
-    .navbar .badge-status { background: var(--verde-suave); color: #2D6A4F; padding: 0.3rem 1rem; border-radius: 30px; font-weight: 600; }
+    .navbar .breadcrumb { background: transparent; margin: 0; font-size: 0.9rem; display: flex; gap: 0.5rem; list-style: none; padding: 0; }
+    .navbar .breadcrumb li { display: inline; }
+    .navbar .badge-status { 
+      background: var(--verde-suave); color: #2D6A4F; padding: 0.3rem 1rem; 
+      border-radius: 30px; font-weight: 600; font-size: 0.8rem;
+    }
+    .navbar .badge-status.error { background: #F8D7DA; color: #C0392B; }
+    .navbar .badge-status i { margin-right: 4px; }
 
     /* ===== CARDS ===== */
     .card {
@@ -109,14 +128,21 @@
       background: rgba(255,255,255,0.65);
       border: 1px solid rgba(255,255,255,0.3);
     }
-    .kpi-value { font-size: 2rem; font-weight: 700; color: var(--azul-plumbago); }
-    .kpi-label { font-size: 0.85rem; color: var(--gris-medio); display: flex; align-items: center; gap: 0.3rem; }
+    .kpi-value { font-size: 1.8rem; font-weight: 700; color: var(--azul-plumbago); line-height: 1.2; }
+    .kpi-label { font-size: 0.75rem; color: var(--gris-medio); display: flex; align-items: center; gap: 0.3rem; text-transform: uppercase; letter-spacing: 0.03em; }
+    .kpi-label i { font-size: 0.9rem; }
 
     /* ===== TABLA ===== */
     .table-container { overflow-x: auto; }
     .table { width: 100%; border-collapse: separate; border-spacing: 0 0.4rem; }
     .table th { background: var(--azul-suave); color: var(--azul-plumbago); font-weight: 600; padding: 0.75rem 1rem; }
     .table td { background: var(--blanco); padding: 0.65rem 1rem; border-radius: 8px; }
+    body.dark-mode .table td { background: #1E1E1E; }
+    .table .badge-dictamen {
+      padding: 0.2rem 0.8rem; border-radius: 30px; font-size: 0.75rem; font-weight: 500;
+    }
+    .badge-dictamen.accede { background: #D5E8D0; color: #2D6A4F; }
+    .badge-dictamen.no-accede { background: #F8D7DA; color: #C0392B; }
 
     /* ===== CHART WRAP ===== */
     .chart-wrapper { position: relative; height: 220px; }
@@ -131,55 +157,86 @@
     }
     .filter-group select, .filter-group input {
       padding: 0.4rem 0.8rem; border-radius: 30px; border: 1px solid var(--gris-claro);
-      background: var(--blanco); font-size: 0.9rem; min-width: 140px;
+      background: var(--blanco); font-size: 0.85rem; min-width: 130px;
     }
-    .filter-group label { font-weight: 500; color: var(--gris-medio); margin-right: 0.2rem; }
+    .filter-group label { font-weight: 500; color: var(--gris-medio); margin-right: 0.2rem; font-size: 0.8rem; }
 
     /* ===== LOADER ===== */
     #globalLoader {
-      position: fixed; inset: 0; background: rgba(255,255,255,0.85);
-      display: flex; align-items: center; justify-content: center; z-index: 9999;
+      position: fixed; inset: 0; background: rgba(255,255,255,0.88);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999;
       backdrop-filter: blur(6px);
     }
-    .loader-spinner { width: 48px; height: 48px; border: 5px solid var(--gris-claro); border-top-color: var(--azul-plumbago); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    #globalLoader.hidden { display: none; }
+    .loader-spinner { 
+      width: 48px; height: 48px; border: 5px solid var(--gris-claro); 
+      border-top-color: var(--azul-plumbago); border-radius: 50%; 
+      animation: spin 0.8s linear infinite; 
+    }
+    .loader-text { margin-top: 1rem; color: var(--gris-medio); font-size: 0.9rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     /* ===== FOOTER ===== */
     .footer {
       margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid var(--gris-claro);
-      font-size: 0.75rem; color: var(--gris-medio); line-height: 1.6;
+      font-size: 0.7rem; color: var(--gris-medio); line-height: 1.7;
     }
+    .footer strong { color: var(--azul-plumbago); }
 
     /* ===== MISC ===== */
-    .semaphore { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 0.4rem; }
+    .semaphore { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 0.3rem; }
     .semaphore.green { background: #2D6A4F; }
     .semaphore.yellow { background: #E9B741; }
     .semaphore.red { background: #C0392B; }
-    .badge-ia { background: var(--azul-plumbago); color: white; padding: 0.2rem 0.8rem; border-radius: 30px; font-size: 0.7rem; }
-    .btn-outline-plumbago { border: 1px solid var(--azul-plumbago); color: var(--azul-plumbago); background: transparent; border-radius: 30px; padding: 0.3rem 1.2rem; transition: var(--transition); }
+    .btn-outline-plumbago { 
+      border: 1px solid var(--azul-plumbago); color: var(--azul-plumbago); 
+      background: transparent; border-radius: 30px; padding: 0.3rem 1.2rem; 
+      transition: var(--transition); cursor: pointer; font-size: 0.8rem;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+    }
     .btn-outline-plumbago:hover { background: var(--azul-plumbago); color: white; }
+    .btn-outline-plumbago.danger { border-color: #C0392B; color: #C0392B; }
+    .btn-outline-plumbago.danger:hover { background: #C0392B; color: white; }
+    .btn-outline-plumbago.success { border-color: #2D6A4F; color: #2D6A4F; }
+    .btn-outline-plumbago.success:hover { background: #2D6A4F; color: white; }
 
     /* accesibilidad */
     :focus-visible { outline: 3px solid var(--azul-plumbago); outline-offset: 2px; }
     @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; } }
+    
+    /* Grid KPIs */
+    .kpi-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.8rem; margin-bottom: 1.5rem;
+    }
+    .kpi-grid .card { padding: 0.8rem 1rem; }
+    
+    /* Botón de sincronización */
+    .sync-btn { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
   </style>
 </head>
 <body>
 
 <!-- GLOBAL LOADER -->
-<div id="globalLoader" aria-hidden="true"><div class="loader-spinner"></div></div>
+<div id="globalLoader" aria-hidden="true">
+  <div class="loader-spinner"></div>
+  <div class="loader-text">Cargando datos académicos...</div>
+</div>
 
 <!-- SIDEBAR -->
 <nav class="sidebar" id="sidebar" role="navigation" aria-label="Menú principal">
-  <div class="logo"><i class="fas fa-graduation-cap" style="margin-right: 8px;"></i>COBAED</div>
+  <div class="logo"><i class="fas fa-graduation-cap"></i>COBAED</div>
   <div class="nav-item active" data-section="dashboard"><i class="fas fa-chart-pie"></i> Dashboard</div>
   <div class="nav-item" data-section="detalle"><i class="fas fa-table"></i> Detalle docentes</div>
   <div class="nav-item" data-section="reportes"><i class="fas fa-file-export"></i> Reportes</div>
   <div style="margin-top: 2rem; padding: 0 1rem;">
     <button id="toggleDark" class="btn-outline-plumbago" style="width:100%;"><i class="fas fa-moon"></i> Modo oscuro</button>
   </div>
-  <div style="margin-top: 1rem; padding: 0 1rem; font-size:0.8rem; color:var(--gris-medio);">
+  <div style="margin-top: 1rem; padding: 0 1rem; font-size:0.75rem; color:var(--gris-medio);">
     <i class="fas fa-shield-alt"></i> Dominio @cobaed.mx
+  </div>
+  <div style="margin-top: 0.5rem; padding: 0 1rem; font-size:0.7rem; color:var(--gris-medio); border-top: 1px solid var(--gris-claro); padding-top: 0.8rem;">
+    <i class="fas fa-database"></i> <span id="statusRegistros">0</span> registros
   </div>
 </nav>
 
@@ -187,17 +244,24 @@
 <div class="main-content" id="mainContent">
   <!-- Navbar -->
   <header class="navbar">
-    <div style="display:flex; align-items:center; gap:1rem;">
+    <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
       <button class="sidebar-toggle" id="sidebarToggle" aria-label="Abrir menú"><i class="fas fa-bars"></i></button>
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb" style="display:flex; gap:0.5rem; list-style:none; padding:0; margin:0;">
+        <ol class="breadcrumb">
           <li><i class="fas fa-home"></i> Inicio</li>
           <li>/</li>
           <li style="font-weight:600; color:var(--azul-plumbago);">Dashboard 2026B</li>
         </ol>
       </nav>
     </div>
-    <div><span class="badge-status"><i class="fas fa-sync-alt fa-fw"></i> Actualizado: <span id="lastUpdate">hoy</span></span></div>
+    <div style="display:flex; align-items:center; gap:0.8rem; flex-wrap:wrap;">
+      <button id="syncBtn" class="btn-outline-plumbago success sync-btn" style="padding:0.3rem 1rem;">
+        <i class="fas fa-sync-alt fa-fw"></i> Sincronizar
+      </button>
+      <span class="badge-status" id="statusBadge">
+        <i class="fas fa-check-circle"></i> <span id="lastUpdate">hoy</span>
+      </span>
+    </div>
   </header>
 
   <!-- FILTROS INTELIGENTES -->
@@ -207,40 +271,45 @@
     <div><label for="fDictamen">Dictamen</label><select id="fDictamen"><option value="">Todos</option></select></div>
     <div><label for="fEstatus">Estatus</label><select id="fEstatus"><option value="">Todos</option></select></div>
     <div><label for="fParcial">Parcial</label><select id="fParcial"><option value="">Todos</option></select></div>
-    <div><label for="fDocente">Docente</label><input type="text" id="fDocente" placeholder="Buscar..." style="min-width:180px;" /></div>
+    <div><label for="fDocente">Docente</label><input type="text" id="fDocente" placeholder="Buscar..." style="min-width:150px;" /></div>
     <button class="btn-outline-plumbago" id="clearFilters" style="padding:0.3rem 1.2rem;"><i class="fas fa-undo-alt"></i> Limpiar</button>
   </section>
 
-  <!-- KPIs ROW (25 indicadores agrupados en cards) -->
-  <section id="kpiGrid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap:1rem; margin-bottom:1.5rem;"></section>
+  <!-- KPIs ROW -->
+  <div class="kpi-grid" id="kpiGrid"></div>
 
   <!-- GRAFICOS (2 filas) -->
-  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(400px,1fr)); gap:1.5rem; margin-bottom:1.5rem;">
-    <div class="card"><h5><i class="fas fa-tachometer-alt"></i> Gauge cumplimiento</h5><div class="chart-wrapper"><canvas id="gaugeChart"></canvas></div></div>
-    <div class="card"><h5><i class="fas fa-chart-bar"></i> Ranking planteles</h5><div class="chart-wrapper-full"><canvas id="rankingChart"></canvas></div></div>
-    <div class="card"><h5><i class="fas fa-clock"></i> Cumplimiento por turno</h5><div class="chart-wrapper"><canvas id="turnoChart"></canvas></div></div>
-    <div class="card"><h5><i class="fas fa-layer-group"></i> Cumplimiento por parcial</h5><div class="chart-wrapper"><canvas id="parcialChart"></canvas></div></div>
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(380px,1fr)); gap:1.5rem; margin-bottom:1.5rem;">
+    <div class="card"><h5 style="font-size:0.9rem; margin-bottom:0.5rem;"><i class="fas fa-tachometer-alt"></i> Gauge cumplimiento</h5><div class="chart-wrapper"><canvas id="gaugeChart"></canvas></div></div>
+    <div class="card"><h5 style="font-size:0.9rem; margin-bottom:0.5rem;"><i class="fas fa-chart-bar"></i> Ranking planteles</h5><div class="chart-wrapper-full"><canvas id="rankingChart"></canvas></div></div>
+    <div class="card"><h5 style="font-size:0.9rem; margin-bottom:0.5rem;"><i class="fas fa-clock"></i> Cumplimiento por turno</h5><div class="chart-wrapper"><canvas id="turnoChart"></canvas></div></div>
+    <div class="card"><h5 style="font-size:0.9rem; margin-bottom:0.5rem;"><i class="fas fa-layer-group"></i> Cumplimiento por parcial</h5><div class="chart-wrapper"><canvas id="parcialChart"></canvas></div></div>
   </div>
-  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(400px,1fr)); gap:1.5rem; margin-bottom:1.5rem;">
-    <div class="card"><h5><i class="fas fa-exclamation-triangle"></i> Riesgo académico</h5><div class="chart-wrapper-full"><canvas id="riesgoChart"></canvas></div></div>
-    <div class="card"><h5><i class="fas fa-gavel"></i> Dictamen</h5><div class="chart-wrapper"><canvas id="dictamenChart"></canvas></div></div>
-    <div class="card"><h5><i class="fas fa-arrow-up"></i> Top 10</h5><div class="chart-wrapper-full"><canvas id="top10Chart"></canvas></div></div>
-    <div class="card"><h5><i class="fas fa-arrow-down"></i> Bottom 10</h5><div class="chart-wrapper-full"><canvas id="bottom10Chart"></canvas></div></div>
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(380px,1fr)); gap:1.5rem; margin-bottom:1.5rem;">
+    <div class="card"><h5 style="font-size:0.9rem; margin-bottom:0.5rem;"><i class="fas fa-exclamation-triangle"></i> Riesgo académico</h5><div class="chart-wrapper-full"><canvas id="riesgoChart"></canvas></div></div>
+    <div class="card"><h5 style="font-size:0.9rem; margin-bottom:0.5rem;"><i class="fas fa-gavel"></i> Dictamen</h5><div class="chart-wrapper"><canvas id="dictamenChart"></canvas></div></div>
+    <div class="card"><h5 style="font-size:0.9rem; margin-bottom:0.5rem;"><i class="fas fa-arrow-up"></i> Top 10</h5><div class="chart-wrapper-full"><canvas id="top10Chart"></canvas></div></div>
+    <div class="card"><h5 style="font-size:0.9rem; margin-bottom:0.5rem;"><i class="fas fa-arrow-down"></i> Bottom 10</h5><div class="chart-wrapper-full"><canvas id="bottom10Chart"></canvas></div></div>
   </div>
 
   <!-- TABLA INTELIGENTE -->
   <div class="card" style="padding:0.5rem 0 1rem 0;">
     <div style="padding:0 1.5rem; display:flex; justify-content:space-between; flex-wrap:wrap; align-items:center; margin-bottom:0.5rem;">
-      <h5><i class="fas fa-users"></i> Detalle docente</h5>
-      <div style="display:flex; gap:0.5rem;">
+      <h5 style="font-size:1rem;"><i class="fas fa-users"></i> Detalle docente</h5>
+      <div style="display:flex; gap:0.3rem; flex-wrap:wrap;">
         <button class="btn-outline-plumbago" onclick="exportTable('excel')"><i class="fas fa-file-excel"></i> Excel</button>
         <button class="btn-outline-plumbago" onclick="exportTable('csv')"><i class="fas fa-file-csv"></i> CSV</button>
         <button class="btn-outline-plumbago" onclick="exportTable('pdf')"><i class="fas fa-file-pdf"></i> PDF</button>
+        <button class="btn-outline-plumbago" onclick="exportTable('print')"><i class="fas fa-print"></i> Imprimir</button>
       </div>
     </div>
     <div class="table-container">
-      <table id="docentesTable" class="table table-striped" style="width:100%;">
-        <thead><tr><th>Plantel</th><th>Docente</th><th>Turno</th><th>Matrícula</th><th>Materias</th><th>Registradas</th><th>Pendientes</th><th>Dictamen</th><th>% Cumpl</th></tr></thead>
+      <table id="docentesTable" class="table" style="width:100%;">
+        <thead><tr>
+          <th>Plantel</th><th>Docente</th><th>Turno</th><th>Matrícula</th>
+          <th>Materias</th><th>Registradas</th><th>Pendientes</th>
+          <th>Dictamen</th><th>% Cumpl</th>
+        </tr></thead>
         <tbody id="tableBody"></tbody>
       </table>
     </div>
@@ -249,26 +318,28 @@
   <!-- FOOTER INSTITUCIONAL -->
   <footer class="footer">
     <p><strong>AVISO DE CONFIDENCIALIDAD</strong> De conformidad con lo establecido en el inciso a del artículo 57 del “Acuerdo por el que se emiten las políticas y disposiciones para impulsar el uso y aprovechamiento de la informática, el gobierno digital, las tecnologías de la información y comunicación, y la seguridad de la información en la Administración Pública Federal”, se informa que este mensaje y los datos adjuntos son para uso exclusivo de la persona o entidad a la que expresamente ha sido enviada, el cual puede contener información que por su naturaleza deba ser considerada como CONFIDENCIAL o RESERVADA, en términos de lo dispuesto en la Ley General de Transparencia y Acceso a la Información Pública y en la Ley General de Protección de Datos Personales en Posesión de Sujetos Obligados. Si por error ha recibido esta comunicación: 1) queda estrictamente prohibido la revelación, retransmisión, difusión, copia, impresión, modificación, alteración en toda o en alguna de sus partes o el uso de la información contenida en el archivo electrónico sea diverso al objeto por el cual se emitió; 2) notifíquelo al remitente; y 3) bórrelo de inmediato y en forma permanente, junto con cualquier copia digital o impresa, así como cualquier archivo anexo al mismo.</p>
-    <p style="margin-top:0.8rem;">COBAED · Sistema de Evaluación de Planeaciones 2026B · v1.0</p>
+    <p style="margin-top:0.8rem;">COBAED · Sistema de Evaluación de Planeaciones 2026B · v2.0</p>
   </footer>
 </div>
 
 <script>
   /* ============================================================
-     SISTEMA COMPLETO · SINCRONIZACIÓN CON GOOGLE SHEETS (ID PROVISTO)
+     SISTEMA COMPLETO · SINCRONIZACIÓN CON GOOGLE APPS SCRIPT
      ============================================================ */
   (function() {
     'use strict';
 
     // ---- CONFIGURACIÓN ----
-    const SHEET_ID = '1Enz9tr8SGtEZLI-cvTnyjK3BIQLyUzii'; // ID proporcionado
-    const SHEET_NAME = 'Hoja1';
-    const API_KEY = ''; // Si es público, se puede omitir; para producción usar OAuth2 o script de Apps Script
-
+    // URL de la Web App de Google Apps Script (DEBES REEMPLAZARLA)
+    // Ejemplo: https://script.google.com/macros/s/AKfycb.../exec
+    const SCRIPT_URL = 'https://script.google.com/a/macros/cobaed.mx/s/AKfycbzfYS3eV7d3wgVapmQ_J_9jUp2oC3Rlvz72W0iZlbUza6R40LxM1NzYvc930j342Mas/exec'; // <-- CAMBIAR
+    
     // ---- ESTADO GLOBAL ----
-    let datosOriginales = [];      // todos los registros
+    let datosOriginales = [];
     let datosFiltrados = [];
     let charts = {};
+    let dataTable = null;
+    let isLoading = false;
 
     // ---- ELEMENTOS DOM ----
     const $ = (id) => document.getElementById(id);
@@ -281,109 +352,81 @@
     const fParcial = $('fParcial');
     const fDocente = $('fDocente');
     const clearBtn = $('clearFilters');
+    const syncBtn = $('syncBtn');
+    const statusBadge = $('statusBadge');
+    const lastUpdate = $('lastUpdate');
+    const statusRegistros = $('statusRegistros');
+    const loader = $('globalLoader');
 
     // ---- UTILITY ----
     function safeNum(v) { const n = parseFloat(v); return isNaN(n) ? 0 : n; }
     function safeStr(v) { return (v || '').toString().trim(); }
 
-    // ---- CARGA DE DATOS DESDE SHEET (via Google Sheets API v4) ----
-    async function fetchDataFromSheet() {
+    // ---- CARGA DE DATOS DESDE APPS SCRIPT ----
+    async function fetchDataFromAppsScript() {
       try {
-        const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
+        const url = `${SCRIPT_URL}?action=getData&t=${Date.now()}`;
         const resp = await fetch(url);
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        const data = await resp.json();
-        const rows = data.values || [];
-        if (rows.length < 2) throw new Error('Datos insuficientes');
-        // Mapear encabezados (primera fila)
-        const headers = rows[0].map(h => safeStr(h).toLowerCase().trim());
-        const idx = {
-          plantel: headers.indexOf('plantel'),
-          matricula: headers.indexOf('matricula'),
-          docente: headers.indexOf('docente'),
-          turno: headers.indexOf('turno'),
-          materias: headers.indexOf('materias asignadas total (ria)'),
-          esperadas: headers.indexOf('total de planeaciones que deben entragar'),
-          registradas: headers.indexOf('no de planeaciones registradas en ces.cobaed.mx'),
-          dictamen: headers.indexOf('dictamen'),
-          estatus: headers.indexOf('en activo titulares docentes'),
-          parcial1: headers.indexOf('1er parcial ces.cobaed.mx'),
-          parcial2: headers.indexOf('2do parcial ces.cobaed.mx'),
-          parcial3: headers.indexOf('3er parcial ces.cobaed.mx'),
-          diferencia: headers.indexOf('diferencia')
-        };
-        // Si no encuentra algunas columnas, usar índices por posición (estructura del .xlsx)
-        if (idx.plantel === -1) idx.plantel = 1;
-        if (idx.docente === -1) idx.docente = 3;
-        if (idx.turno === -1) idx.turno = 4;
-        if (idx.materias === -1) idx.materias = 10;
-        if (idx.esperadas === -1) idx.esperadas = 11;
-        if (idx.registradas === -1) idx.registradas = 5;
-        if (idx.dictamen === -1) idx.dictamen = 13;
-        if (idx.estatus === -1) idx.estatus = 14;
-        if (idx.parcial1 === -1) idx.parcial1 = 6;
-        if (idx.parcial2 === -1) idx.parcial2 = 7;
-        if (idx.parcial3 === -1) idx.parcial3 = 8;
-        if (idx.diferencia === -1) idx.diferencia = 12;
-
-        datosOriginales = rows.slice(1).map(row => ({
-          plantel: safeStr(row[idx.plantel] || ''),
-          matricula: safeStr(row[idx.matricula] || ''),
-          docente: safeStr(row[idx.docente] || ''),
-          turno: safeStr(row[idx.turno] || ''),
-          materias: safeNum(row[idx.materias]),
-          esperadas: safeNum(row[idx.esperadas]),
-          registradas: safeNum(row[idx.registradas]),
-          dictamen: safeStr(row[idx.dictamen] || ''),
-          estatus: safeStr(row[idx.estatus] || ''),
-          p1: safeNum(row[idx.parcial1]),
-          p2: safeNum(row[idx.parcial2]),
-          p3: safeNum(row[idx.parcial3]),
-          diferencia: safeNum(row[idx.diferencia])
-        })).filter(r => r.docente.length > 0);
-
-        // Actualizar fecha
-        $('lastUpdate').textContent = new Date().toLocaleDateString('es-MX');
-        return datosOriginales;
+        const result = await resp.json();
+        
+        if (result.error) {
+          // Si hay error, usar datos de fallback
+          console.warn('Error desde Apps Script:', result.error);
+          if (result.fallback) {
+            return result.fallback;
+          }
+          throw new Error(result.error);
+        }
+        
+        if (result.success && result.data) {
+          return result.data;
+        }
+        
+        throw new Error('Respuesta inválida');
       } catch (e) {
         console.error('Error fetch:', e);
-        Swal.fire({ icon: 'error', title: 'Error de sincronización', text: 'No se pudo cargar la hoja. Verifique ID y permisos.' });
-        // Datos de ejemplo (fallback) para demo
-        return getFallbackData();
+        // Usar fallback local
+        return getLocalFallbackData();
       }
     }
 
-    // ---- FALLBACK (estructura similar al .xlsx) ----
-    function getFallbackData() {
+    // ---- DATOS DE FALLBACK LOCAL ----
+    function getLocalFallbackData() {
       return [
-        { plantel:'LA FORESTAL', matricula:'20903', docente:'IBARRA FLORES ROSALINA', turno:'Vesp', materias:4, esperadas:12, registradas:12, dictamen:'Accede', estatus:'TITULAR', p1:4,p2:4,p3:4, diferencia:0 },
-        { plantel:'LA FORESTAL', matricula:'10811', docente:'HERRERA ANDRADE MARIA', turno:'Vesp', materias:7, esperadas:21, registradas:20, dictamen:'No Acccede', estatus:'TITULAR', p1:6,p2:7,p3:7, diferencia:1 },
-        { plantel:'LERDO', matricula:'30712', docente:'GUAJARDO RODRIGUEZ JOSE', turno:'Vesp', materias:5, esperadas:15, registradas:14, dictamen:'No Acccede', estatus:'TITULAR', p1:5,p2:4,p3:5, diferencia:1 },
-        { plantel:'LOMAS', matricula:'51806', docente:'ROMERO LOPEZ SERGIO', turno:'Vesp', materias:7, esperadas:21, registradas:21, dictamen:'Accede', estatus:'TITULAR', p1:7,p2:7,p3:7, diferencia:0 },
-        { plantel:'LOMAS', matricula:'70812', docente:'HERNANDEZ RIVAS NOEL', turno:'Vesp', materias:2, esperadas:6, registradas:12, dictamen:'Accede', estatus:'TITULAR', p1:3,p2:4,p3:5, diferencia:-6 },
-        { plantel:'SANTIAGO PAPASQUIARO', matricula:'190708', docente:'GUEVARA HERNANDEZ LUIS', turno:'Vesp', materias:2, esperadas:6, registradas:8, dictamen:'Accede', estatus:'TITULAR', p1:3,p2:3,p3:2, diferencia:-2 },
-        { plantel:'TAYOLTITA', matricula:'51805', docente:'REYES DIAZ MARINO', turno:'Vesp', materias:5, esperadas:15, registradas:13, dictamen:'No Acccede', estatus:'TITULAR', p1:3,p2:5,p3:5, diferencia:2 },
-        { plantel:'JUANA VILLALOBOS', matricula:'180111', docente:'ARAGON VAZQUEZ HILDA', turno:'Vesp', materias:2, esperadas:6, registradas:8, dictamen:'Accede', estatus:'TITULAR', p1:2,p2:2,p3:4, diferencia:-2 },
-        { plantel:'GÓMEZ PALACIO', matricula:'31301', docente:'MEJIA TORRES FERNANDO', turno:'Vesp', materias:3, esperadas:9, registradas:7, dictamen:'No Acccede', estatus:'TITULAR', p1:1,p2:3,p3:3, diferencia:2 },
-        { plantel:'MAPIMI', matricula:'110108', docente:'ACOSTA ANTUNEZ GABINO', turno:'Vesp', materias:4, esperadas:12, registradas:4, dictamen:'No Acccede', estatus:'TITULAR', p1:2,p2:2,p3:0, diferencia:8 }
+        { plantel: 'LA FORESTAL', matricula: '20903', docente: 'IBARRA FLORES ROSALINA DE LOURDES', turno: 'Vesp', registradas: 12, p1: 4, p2: 4, p3: 4, materias: 4, esperadas: 12, diferencia: 0, dictamen: 'Accede', estatus: 'TITULAR' },
+        { plantel: 'LA FORESTAL', matricula: '21945', docente: 'SIMENTAL SOTO VIOLETA DEL ROCIO', turno: 'Vesp', registradas: 6, p1: 2, p2: 2, p3: 2, materias: 2, esperadas: 6, diferencia: 0, dictamen: 'Accede', estatus: 'TITULAR' },
+        { plantel: 'LA FORESTAL', matricula: '10811', docente: 'HERRERA ANDRADE MARIA MARGARITA', turno: 'Vesp', registradas: 20, p1: 6, p2: 7, p3: 7, materias: 7, esperadas: 21, diferencia: 1, dictamen: 'No Acccede', estatus: 'TITULAR' },
+        { plantel: 'LA FORESTAL', matricula: '20744', docente: 'GUERRERO SANCHEZ MARIA CONCEPCION', turno: 'Vesp', registradas: 5, p1: 2, p2: 2, p3: 1, materias: 2, esperadas: 6, diferencia: 1, dictamen: 'No Acccede', estatus: 'TITULAR' },
+        { plantel: 'LERDO', matricula: '30109', docente: 'ALVARADO DURON WENDY NOHEMI', turno: 'Vesp', registradas: 6, p1: 2, p2: 2, p3: 2, materias: 2, esperadas: 6, diferencia: 0, dictamen: 'Accede', estatus: 'TITULAR' },
+        { plantel: 'LERDO', matricula: '30712', docente: 'GUAJARDO RODRIGUEZ JOSE ESTEBAN', turno: 'Vesp', registradas: 14, p1: 5, p2: 4, p3: 5, materias: 5, esperadas: 15, diferencia: 1, dictamen: 'No Acccede', estatus: 'TITULAR' },
+        { plantel: 'GREGORIO A. GARCÍA', matricula: '382401', docente: 'SEVILLA BERUMEN DIEGO ALAN', turno: 'Vesp', registradas: 12, p1: 4, p2: 4, p3: 4, materias: 4, esperadas: 12, diferencia: 0, dictamen: 'Accede', estatus: 'TITULAR' },
+        { plantel: 'GREGORIO A. GARCÍA', matricula: '40709', docente: 'GARZA HUIZAR GERARDO FAUSTINO', turno: 'Vesp', registradas: 5, p1: 1, p2: 2, p3: 2, materias: 2, esperadas: 6, diferencia: 1, dictamen: 'No Acccede', estatus: 'TITULAR' },
+        { plantel: 'LOMAS', matricula: '51806', docente: 'ROMERO LOPEZ SERGIO ARMANDO', turno: 'Vesp', registradas: 21, p1: 7, p2: 7, p3: 7, materias: 7, esperadas: 21, diferencia: 0, dictamen: 'Accede', estatus: 'TITULAR' },
+        { plantel: 'LOMAS', matricula: '70812', docente: 'HERNANDEZ RIVAS NOEL', turno: 'Vesp', registradas: 12, p1: 3, p2: 4, p3: 5, materias: 2, esperadas: 6, diferencia: -6, dictamen: 'Accede', estatus: 'TITULAR' },
+        { plantel: 'SANTIAGO PAPASQUIARO', matricula: '190708', docente: 'GUEVARA HERNANDEZ LUIS ALONSO', turno: 'Vesp', registradas: 8, p1: 3, p2: 3, p3: 2, materias: 2, esperadas: 6, diferencia: -2, dictamen: 'Accede', estatus: 'TITULAR' },
+        { plantel: 'TAYOLTITA', matricula: '51805', docente: 'REYES DIAZ MARINO', turno: 'Vesp', registradas: 13, p1: 3, p2: 5, p3: 5, materias: 5, esperadas: 15, diferencia: 2, dictamen: 'No Acccede', estatus: 'TITULAR' },
+        { plantel: 'JUANA VILLALOBOS', matricula: '180111', docente: 'ARAGON VAZQUEZ HILDA MARGARITA', turno: 'Vesp', registradas: 8, p1: 2, p2: 2, p3: 4, materias: 2, esperadas: 6, diferencia: -2, dictamen: 'Accede', estatus: 'TITULAR' },
+        { plantel: 'GÓMEZ PALACIO', matricula: '31301', docente: 'MEJIA TORRES FERNANDO', turno: 'Vesp', registradas: 7, p1: 1, p2: 3, p3: 3, materias: 3, esperadas: 9, diferencia: 2, dictamen: 'No Acccede', estatus: 'TITULAR' },
+        { plantel: 'MAPIMI', matricula: '110108', docente: 'ACOSTA ANTUNEZ GABINO', turno: 'Vesp', registradas: 4, p1: 2, p2: 2, p3: 0, materias: 4, esperadas: 12, diferencia: 8, dictamen: 'No Acccede', estatus: 'TITULAR' }
       ];
     }
 
-    // ---- CÁLCULO DE KPIS (25 indicadores) ----
+    // ---- CÁLCULO DE KPIS ----
     function calcularKPI(datos) {
       const totalDocentes = datos.length;
       const totalPlanteles = new Set(datos.map(d => d.plantel)).size;
-      const materiasAsignadas = datos.reduce((s,d) => s + d.materias, 0);
-      const esperadas = datos.reduce((s,d) => s + d.esperadas, 0);
-      const registradas = datos.reduce((s,d) => s + d.registradas, 0);
+      const materiasAsignadas = datos.reduce((s,d) => s + safeNum(d.materias), 0);
+      const esperadas = datos.reduce((s,d) => s + safeNum(d.esperadas), 0);
+      const registradas = datos.reduce((s,d) => s + safeNum(d.registradas), 0);
       const pendientes = esperadas - registradas;
       const cumplimiento = esperadas > 0 ? (registradas / esperadas) * 100 : 0;
       const docentesCumplidos = datos.filter(d => d.dictamen === 'Accede').length;
       const igcp = cumplimiento;
       const pctDocentesCumplidos = totalDocentes > 0 ? (docentesCumplidos / totalDocentes) * 100 : 0;
-      const docentesAdeudo = datos.filter(d => d.diferencia > 0).length;
-      const riesgoAcademico = datos.filter(d => d.diferencia > 2).length;
-      const sinCaptura = datos.filter(d => d.registradas === 0).length;
+      const docentesAdeudo = datos.filter(d => safeNum(d.diferencia) > 0).length;
+      const riesgoAcademico = datos.filter(d => safeNum(d.diferencia) > 2).length;
+      const sinCaptura = datos.filter(d => safeNum(d.registradas) === 0).length;
       const cumplimientoTitulares = datos.filter(d => d.estatus === 'TITULAR' && d.dictamen === 'Accede').length;
       const eficienciaPlantel = totalDocentes > 0 ? (docentesCumplidos / totalDocentes) * 100 : 0;
       const gestionAcademica = (cumplimiento * 0.6 + pctDocentesCumplidos * 0.4);
@@ -392,10 +435,11 @@
         totalPlanteles, totalDocentes, materiasAsignadas, esperadas, registradas, pendientes,
         cumplimiento, igcp, pctDocentesCumplidos, docentesCumplidos, docentesAdeudo,
         riesgoAcademico, sinCaptura, cumplimientoTitulares, eficienciaPlantel, gestionAcademica,
-        // Indicadores adicionales (se calculan en la vista)
         avanceInstitucional: cumplimiento,
-        distribucionDictamen: { Accede: datos.filter(d=>d.dictamen==='Accede').length, NoAcccede: datos.filter(d=>d.dictamen==='No Acccede').length },
-        histogramaDiferencias: datos.map(d => d.diferencia).filter(v => v !== 0)
+        distribucionDictamen: { 
+          Accede: datos.filter(d => d.dictamen === 'Accede').length, 
+          'No Acccede': datos.filter(d => d.dictamen === 'No Acccede').length 
+        }
       };
     }
 
@@ -419,25 +463,33 @@
         { label: 'Avance Institucional', value: kpi.avanceInstitucional.toFixed(1)+'%', icon: 'fa-rocket', color: '#2D6A4F' }
       ];
       kpiGrid.innerHTML = items.map(item => `
-        <div class="card" style="padding:0.8rem 1rem;">
+        <div class="card" style="padding:0.6rem 0.8rem;">
           <div class="kpi-label"><i class="fas ${item.icon}" style="color:${item.color};"></i> ${item.label}</div>
-          <div class="kpi-value" style="font-size:1.5rem;">${item.value}</div>
+          <div class="kpi-value">${item.value}</div>
         </div>
       `).join('');
     }
 
-    // ---- FILTROS DEPENDIENTES ----
+    // ---- FILTROS ----
     function populateFilters(datos) {
-      const planteles = [...new Set(datos.map(d => d.plantel))].sort();
-      const turnos = [...new Set(datos.map(d => d.turno))].sort();
-      const dictamenes = [...new Set(datos.map(d => d.dictamen))].sort();
-      const estatuses = [...new Set(datos.map(d => d.estatus))].sort();
+      const planteles = [...new Set(datos.map(d => d.plantel))].filter(p => p).sort();
+      const turnos = [...new Set(datos.map(d => d.turno))].filter(t => t).sort();
+      const dictamenes = [...new Set(datos.map(d => d.dictamen))].filter(d => d).sort();
+      const estatuses = [...new Set(datos.map(d => d.estatus))].filter(e => e).sort();
 
-      [fPlantel, fTurno, fDictamen, fEstatus].forEach(sel => sel.innerHTML = '<option value="">Todos</option>');
-      planteles.forEach(p => fPlantel.innerHTML += `<option value="${p}">${p}</option>`);
-      turnos.forEach(t => fTurno.innerHTML += `<option value="${t}">${t}</option>`);
-      dictamenes.forEach(d => fDictamen.innerHTML += `<option value="${d}">${d}</option>`);
-      estatuses.forEach(e => fEstatus.innerHTML += `<option value="${e}">${e}</option>`);
+      [fPlantel, fTurno, fDictamen, fEstatus].forEach(sel => {
+        const current = sel.value;
+        sel.innerHTML = '<option value="">Todos</option>';
+        let options = [];
+        if (sel === fPlantel) options = planteles;
+        else if (sel === fTurno) options = turnos;
+        else if (sel === fDictamen) options = dictamenes;
+        else if (sel === fEstatus) options = estatuses;
+        options.forEach(opt => {
+          sel.innerHTML += `<option value="${opt}">${opt}</option>`;
+        });
+        if (current) sel.value = current;
+      });
     }
 
     function applyFilters() {
@@ -446,6 +498,7 @@
       const dictamen = fDictamen.value;
       const estatus = fEstatus.value;
       const docente = fDocente.value.toLowerCase().trim();
+      
       datosFiltrados = datosOriginales.filter(d => {
         if (plantel && d.plantel !== plantel) return false;
         if (turno && d.turno !== turno) return false;
@@ -457,113 +510,166 @@
       actualizarDashboard(datosFiltrados);
     }
 
-    // ---- ACTUALIZAR DASHBOARD (KPIs, tablas, gráficos) ----
+    // ---- ACTUALIZAR DASHBOARD ----
     function actualizarDashboard(datos) {
       const kpi = calcularKPI(datos);
       renderKPI(kpi);
       renderTable(datos);
       renderCharts(datos, kpi);
+      statusRegistros.textContent = datos.length;
     }
 
-    // ---- TABLA INTELIGENTE (DataTables) ----
-    let dataTable = null;
+    // ---- TABLA ----
     function renderTable(datos) {
       const rows = datos.map(d => `
         <tr>
-          <td>${d.plantel}</td>
-          <td>${d.docente}</td>
-          <td>${d.turno}</td>
-          <td>${d.matricula}</td>
-          <td>${d.materias}</td>
-          <td>${d.registradas}</td>
-          <td>${d.diferencia > 0 ? d.diferencia : 0}</td>
-          <td><span class="badge" style="background:${d.dictamen==='Accede'?'#D5E8D0':'#F8D7DA'};color:#1E1E1E;">${d.dictamen}</span></td>
-          <td>${d.esperadas > 0 ? ((d.registradas/d.esperadas)*100).toFixed(1)+'%' : '0%'}</td>
+          <td>${d.plantel || ''}</td>
+          <td>${d.docente || ''}</td>
+          <td>${d.turno || ''}</td>
+          <td>${d.matricula || ''}</td>
+          <td>${safeNum(d.materias)}</td>
+          <td>${safeNum(d.registradas)}</td>
+          <td>${Math.max(0, safeNum(d.diferencia))}</td>
+          <td><span class="badge-dictamen ${d.dictamen === 'Accede' ? 'accede' : 'no-accede'}">${d.dictamen || ''}</span></td>
+          <td>${safeNum(d.esperadas) > 0 ? ((safeNum(d.registradas)/safeNum(d.esperadas))*100).toFixed(1)+'%' : '0%'}</td>
         </tr>
       `).join('');
       tableBody.innerHTML = rows;
-      if (dataTable) dataTable.destroy();
+      
+      if (dataTable) {
+        dataTable.destroy();
+        dataTable = null;
+      }
+      
       dataTable = $('#docentesTable').DataTable({
         dom: 'Bfrtip',
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
         pageLength: 15,
         responsive: true,
-        language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' }
+        language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' },
+        destroy: true
       });
     }
 
-    // ---- EXPORTAR TABLA ----
+    // ---- EXPORTAR ----
     window.exportTable = function(format) {
       if (!dataTable) return;
       if (format === 'excel') dataTable.button('.buttons-excel').trigger();
       else if (format === 'csv') dataTable.button('.buttons-csv').trigger();
       else if (format === 'pdf') dataTable.button('.buttons-pdf').trigger();
+      else if (format === 'print') dataTable.button('.buttons-print').trigger();
     };
 
-    // ---- GRÁFICOS (CHART.JS) ----
+    // ---- GRÁFICOS ----
     function renderCharts(datos, kpi) {
-      // Destruir gráficos previos
-      Object.values(charts).forEach(c => c.destroy());
+      Object.values(charts).forEach(c => { try { c.destroy(); } catch(e) {} });
       charts = {};
 
       // Gauge (doughnut)
       const ctxGauge = document.getElementById('gaugeChart').getContext('2d');
       charts.gauge = new Chart(ctxGauge, {
         type: 'doughnut',
-        data: { labels: ['Cumplimiento', 'Pendiente'], datasets: [{ data: [kpi.cumplimiento, 100-kpi.cumplimiento], backgroundColor: ['#2D6A4F', '#E9ECEF'], borderWidth: 0 }] },
-        options: { cutout: '75%', plugins: { tooltip: { callbacks: { label: (ctx) => ctx.parsed + '%' } } } }
+        data: { 
+          labels: ['Cumplimiento', 'Pendiente'], 
+          datasets: [{ 
+            data: [Math.min(100, kpi.cumplimiento), Math.max(0, 100 - kpi.cumplimiento)], 
+            backgroundColor: ['#2D6A4F', '#E9ECEF'], 
+            borderWidth: 0 
+          }] 
+        },
+        options: { 
+          cutout: '75%', 
+          plugins: { 
+            tooltip: { callbacks: { label: (ctx) => ctx.parsed + '%' } },
+            legend: { position: 'bottom', labels: { boxWidth: 10, padding: 8 } }
+          } 
+        }
       });
 
-      // Ranking planteles (barra horizontal)
-      const ranking = datos.reduce((acc, d) => { acc[d.plantel] = (acc[d.plantel] || 0) + d.registradas; return acc; }, {});
+      // Ranking planteles
+      const ranking = datos.reduce((acc, d) => { 
+        acc[d.plantel] = (acc[d.plantel] || 0) + safeNum(d.registradas); 
+        return acc; 
+      }, {});
       const sortedRank = Object.entries(ranking).sort((a,b) => b[1]-a[1]).slice(0,10);
       const ctxRank = document.getElementById('rankingChart').getContext('2d');
       charts.ranking = new Chart(ctxRank, {
         type: 'bar',
-        data: { labels: sortedRank.map(r=>r[0]), datasets: [{ label: 'Registradas', data: sortedRank.map(r=>r[1]), backgroundColor: '#0B3B5C' }] },
+        data: { 
+          labels: sortedRank.map(r => r[0].length > 20 ? r[0].substring(0,18)+'…' : r[0]), 
+          datasets: [{ label: 'Registradas', data: sortedRank.map(r => r[1]), backgroundColor: '#0B3B5C' }] 
+        },
         options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false }
       });
 
       // Turno
-      const turnoData = datos.reduce((acc,d) => { acc[d.turno] = (acc[d.turno] || 0) + d.registradas; return acc; }, {});
+      const turnoData = datos.reduce((acc, d) => { 
+        acc[d.turno] = (acc[d.turno] || 0) + safeNum(d.registradas); 
+        return acc; 
+      }, {});
       const ctxTurno = document.getElementById('turnoChart').getContext('2d');
       charts.turno = new Chart(ctxTurno, {
         type: 'pie',
-        data: { labels: Object.keys(turnoData), datasets: [{ data: Object.values(turnoData), backgroundColor: ['#0B3B5C','#D4E6F1','#8B6B4C'] }] }
+        data: { 
+          labels: Object.keys(turnoData), 
+          datasets: [{ data: Object.values(turnoData), backgroundColor: ['#0B3B5C','#D4E6F1','#8B6B4C','#D5E8D0'] }] 
+        }
       });
 
-      // Parcial (promedio)
-      const p1 = datos.reduce((s,d) => s + d.p1, 0) / (datos.length || 1);
-      const p2 = datos.reduce((s,d) => s + d.p2, 0) / (datos.length || 1);
-      const p3 = datos.reduce((s,d) => s + d.p3, 0) / (datos.length || 1);
+      // Parcial
+      const p1 = datos.reduce((s,d) => s + safeNum(d.p1), 0) / (datos.length || 1);
+      const p2 = datos.reduce((s,d) => s + safeNum(d.p2), 0) / (datos.length || 1);
+      const p3 = datos.reduce((s,d) => s + safeNum(d.p3), 0) / (datos.length || 1);
       const ctxParcial = document.getElementById('parcialChart').getContext('2d');
       charts.parcial = new Chart(ctxParcial, {
         type: 'line',
-        data: { labels: ['Parcial 1', 'Parcial 2', 'Parcial 3'], datasets: [{ label: 'Promedio registros', data: [p1,p2,p3], borderColor: '#0B3B5C', tension: 0.2, fill: true, backgroundColor: 'rgba(11,59,92,0.1)' }] }
+        data: { 
+          labels: ['Parcial 1', 'Parcial 2', 'Parcial 3'], 
+          datasets: [{ 
+            label: 'Promedio registros', 
+            data: [p1, p2, p3], 
+            borderColor: '#0B3B5C', 
+            tension: 0.2, 
+            fill: true, 
+            backgroundColor: 'rgba(11,59,92,0.1)' 
+          }] 
+        }
       });
 
       // Riesgo
-      const riesgo = datos.filter(d => d.diferencia > 0).length;
+      const riesgo = datos.filter(d => safeNum(d.diferencia) > 0).length;
       const ctxRiesgo = document.getElementById('riesgoChart').getContext('2d');
       charts.riesgo = new Chart(ctxRiesgo, {
         type: 'bar',
-        data: { labels: ['Sin riesgo', 'Riesgo'], datasets: [{ data: [datos.length - riesgo, riesgo], backgroundColor: ['#2D6A4F','#E9B741'] }] }
+        data: { 
+          labels: ['Sin riesgo', 'Con riesgo'], 
+          datasets: [{ data: [datos.length - riesgo, riesgo], backgroundColor: ['#2D6A4F','#E9B741'] }] 
+        }
       });
 
       // Dictamen
-      const dict = datos.reduce((acc,d) => { acc[d.dictamen] = (acc[d.dictamen] || 0) + 1; return acc; }, {});
+      const dict = datos.reduce((acc, d) => { 
+        acc[d.dictamen] = (acc[d.dictamen] || 0) + 1; 
+        return acc; 
+      }, {});
       const ctxDict = document.getElementById('dictamenChart').getContext('2d');
       charts.dictamen = new Chart(ctxDict, {
         type: 'doughnut',
-        data: { labels: Object.keys(dict), datasets: [{ data: Object.values(dict), backgroundColor: ['#2D6A4F','#C0392B'] }] }
+        data: { 
+          labels: Object.keys(dict), 
+          datasets: [{ data: Object.values(dict), backgroundColor: ['#2D6A4F','#C0392B'] }] 
+        }
       });
 
-      // Top 10 (por registradas)
+      // Top 10
       const top = Object.entries(ranking).sort((a,b) => b[1]-a[1]).slice(0,10);
       const ctxTop = document.getElementById('top10Chart').getContext('2d');
       charts.top = new Chart(ctxTop, {
         type: 'bar',
-        data: { labels: top.map(r=>r[0]), datasets: [{ label: 'Registradas', data: top.map(r=>r[1]), backgroundColor: '#0B3B5C' }] },
+        data: { 
+          labels: top.map(r => r[0].length > 20 ? r[0].substring(0,18)+'…' : r[0]), 
+          datasets: [{ label: 'Registradas', data: top.map(r => r[1]), backgroundColor: '#0B3B5C' }] 
+        },
         options: { indexAxis: 'y' }
       });
 
@@ -572,55 +678,121 @@
       const ctxBottom = document.getElementById('bottom10Chart').getContext('2d');
       charts.bottom = new Chart(ctxBottom, {
         type: 'bar',
-        data: { labels: bottom.map(r=>r[0]), datasets: [{ label: 'Registradas', data: bottom.map(r=>r[1]), backgroundColor: '#C0392B' }] },
+        data: { 
+          labels: bottom.map(r => r[0].length > 20 ? r[0].substring(0,18)+'…' : r[0]), 
+          datasets: [{ label: 'Registradas', data: bottom.map(r => r[1]), backgroundColor: '#C0392B' }] 
+        },
         options: { indexAxis: 'y' }
       });
     }
 
-    // ---- INICIALIZACIÓN ----
-    async function init() {
+    // ---- CARGA PRINCIPAL ----
+    async function loadData(showLoader = true) {
+      if (isLoading) return;
+      isLoading = true;
+      if (showLoader) loader.classList.remove('hidden');
+      
       try {
-        // Mostrar loader
-        document.getElementById('globalLoader').style.display = 'flex';
-        datosOriginales = await fetchDataFromSheet();
+        datosOriginales = await fetchDataFromAppsScript();
+        if (!datosOriginales || datosOriginales.length === 0) {
+          datosOriginales = getLocalFallbackData();
+          Swal.fire({
+            icon: 'warning',
+            title: 'Datos de respaldo',
+            text: 'Se están mostrando datos de ejemplo. Verifica la conexión con Google Sheets.'
+          });
+        }
+        
         datosFiltrados = [...datosOriginales];
         populateFilters(datosOriginales);
         const kpi = calcularKPI(datosOriginales);
         renderKPI(kpi);
         renderTable(datosOriginales);
         renderCharts(datosOriginales, kpi);
-        // Eventos filtros
-        [fPlantel, fTurno, fDictamen, fEstatus, fDocente].forEach(el => el.addEventListener('change', applyFilters));
-        fDocente.addEventListener('input', applyFilters);
-        clearBtn.addEventListener('click', () => {
-          [fPlantel, fTurno, fDictamen, fEstatus, fDocente].forEach(el => el.value = '');
-          applyFilters();
-        });
-        // Modo oscuro
-        document.getElementById('toggleDark').addEventListener('click', function() {
-          document.body.classList.toggle('dark-mode');
-          this.innerHTML = document.body.classList.contains('dark-mode') ? '<i class="fas fa-sun"></i> Modo claro' : '<i class="fas fa-moon"></i> Modo oscuro';
-        });
-        // Sidebar toggle
-        document.getElementById('sidebarToggle').addEventListener('click', () => {
-          document.getElementById('sidebar').classList.toggle('open');
-        });
-        // Navegación (mock)
-        document.querySelectorAll('.nav-item').forEach(item => {
-          item.addEventListener('click', function() {
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            this.classList.add('active');
-            if (this.dataset.section === 'detalle') {
-              document.querySelector('.table-container').scrollIntoView({ behavior: 'smooth' });
-            }
-          });
-        });
+        statusRegistros.textContent = datosOriginales.length;
+        lastUpdate.textContent = new Date().toLocaleString('es-MX');
+        statusBadge.className = 'badge-status';
+        statusBadge.innerHTML = `<i class="fas fa-check-circle"></i> ${new Date().toLocaleString('es-MX')}`;
+        
       } catch (e) {
-        console.error('Init error:', e);
-        Swal.fire({ icon: 'error', title: 'Error crítico', text: 'No se pudo inicializar el sistema.' });
+        console.error('Error en loadData:', e);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al cargar datos',
+          text: e.message || 'Verifica la configuración de la Web App.'
+        });
+        // Usar fallback
+        datosOriginales = getLocalFallbackData();
+        datosFiltrados = [...datosOriginales];
+        populateFilters(datosOriginales);
+        const kpi = calcularKPI(datosOriginales);
+        renderKPI(kpi);
+        renderTable(datosOriginales);
+        renderCharts(datosOriginales, kpi);
+        statusRegistros.textContent = datosOriginales.length;
+        statusBadge.className = 'badge-status error';
+        statusBadge.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Datos locales`;
       } finally {
-        document.getElementById('globalLoader').style.display = 'none';
+        if (showLoader) loader.classList.add('hidden');
+        isLoading = false;
       }
+    }
+
+    // ---- INICIALIZACIÓN ----
+    async function init() {
+      // Configurar eventos
+      [fPlantel, fTurno, fDictamen, fEstatus, fDocente].forEach(el => {
+        el.addEventListener('change', applyFilters);
+        if (el.tagName === 'INPUT') el.addEventListener('input', applyFilters);
+      });
+      
+      clearBtn.addEventListener('click', () => {
+        [fPlantel, fTurno, fDictamen, fEstatus, fParcial].forEach(el => el.value = '');
+        fDocente.value = '';
+        applyFilters();
+      });
+      
+      syncBtn.addEventListener('click', async () => {
+        syncBtn.disabled = true;
+        syncBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sincronizando...';
+        await loadData(true);
+        syncBtn.innerHTML = '<i class="fas fa-sync-alt fa-fw"></i> Sincronizar';
+        syncBtn.disabled = false;
+        Swal.fire({
+          icon: 'success',
+          title: 'Sincronización completada',
+          text: `Se cargaron ${datosOriginales.length} registros.`,
+          timer: 2000,
+          showConfirmButton: false
+        });
+      });
+      
+      // Modo oscuro
+      document.getElementById('toggleDark').addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        this.innerHTML = document.body.classList.contains('dark-mode') 
+          ? '<i class="fas fa-sun"></i> Modo claro' 
+          : '<i class="fas fa-moon"></i> Modo oscuro';
+      });
+      
+      // Sidebar toggle
+      document.getElementById('sidebarToggle').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.toggle('open');
+      });
+      
+      // Navegación
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', function() {
+          document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+          this.classList.add('active');
+          if (this.dataset.section === 'detalle') {
+            document.querySelector('.table-container').scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+
+      // Cargar datos
+      await loadData(true);
     }
 
     // ---- ARRANQUE ----
